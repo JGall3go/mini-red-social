@@ -224,3 +224,8 @@ def quitar_like(sesion, usuario_id, publicacion_id):
         raise
     sesion.refresh(publicacion)
     return publicacion
+
+
+def listar_likes(sesion):
+    # Se usa solo al arrancar, para cargar los likes en memoria
+    return sesion.scalars(select(Like)).all()

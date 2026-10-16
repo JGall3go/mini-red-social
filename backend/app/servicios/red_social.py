@@ -87,6 +87,7 @@ class RedSocial:
         self.solicitudes = {}  # id del receptor -> Cola de solicitudes
         self.publicaciones = {}  # id del autor -> ListaEnlazada de posts
         self.ranking = BST()  # todos los posts ordenados por likes
+        self.likes = {}  # id del usuario -> ListaEnlazada con los ids de los posts que le gustaron
 
     # ------------------------------------------------------------------
     # Carga inicial
@@ -102,6 +103,8 @@ class RedSocial:
             self.solicitudes[solicitud.receptor_id].encolar(_solicitud_a_dict(solicitud))
         for publicacion in crud.listar_publicaciones(sesion):
             self._agregar_publicacion(_publicacion_a_dict(publicacion))
+        for like in crud.listar_likes(sesion):
+            self.likes[like.usuario_id].insertar_inicio(like.publicacion_id)
 
     def _agregar_usuario(self, usuario):
         self.usuarios[usuario["id"]] = usuario
@@ -110,6 +113,7 @@ class RedSocial:
         self.grafo.agregar_vertice(usuario["id"])
         self.solicitudes[usuario["id"]] = Cola()
         self.publicaciones[usuario["id"]] = ListaEnlazada()
+        self.likes[usuario["id"]] = ListaEnlazada()
 
     def _agregar_publicacion(self, post):
         self.publicaciones[post["autor_id"]].insertar_inicio(post)
@@ -252,19 +256,29 @@ class RedSocial:
         crud.eliminar_publicacion(sesion, publicacion_id)
         self.publicaciones[post["autor_id"]].eliminar_por(lambda p: p["id"] == publicacion_id)
         self.ranking.eliminar(_clave_bst(post))
+        # El post ya no existe, así que se quita de los likes de todos
+        for lista in self.likes.values():
+            lista.eliminar(publicacion_id)
 
     def cambiar_like(self, sesion, usuario_id, publicacion_id, dar):
         self._obtener_usuario(usuario_id)
         post = self._buscar_post(publicacion_id)
         if dar:
             actualizado = crud.dar_like(sesion, usuario_id, publicacion_id)
+            self.likes[usuario_id].insertar_inicio(publicacion_id)
         else:
             actualizado = crud.quitar_like(sesion, usuario_id, publicacion_id)
+            self.likes[usuario_id].eliminar(publicacion_id)
         # Al cambiar los likes cambia la clave: se saca del BST y se vuelve a meter
         self.ranking.eliminar(_clave_bst(post))
         post["total_likes"] = actualizado.total_likes
         self.ranking.insertar(_clave_bst(post), post)
         return post
+
+    def likes_de(self, usuario_id):
+        # Ids de los posts a los que el usuario les dio like. O(k)
+        self._obtener_usuario(usuario_id)
+        return list(self.likes[usuario_id])
 
     def feed(self, usuario_id, orden="fecha"):
         # Publicaciones del usuario y de sus amigos

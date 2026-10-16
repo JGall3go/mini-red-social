@@ -43,6 +43,7 @@ const api = {
   eliminarPublicacion: (id) => pedir("DELETE", `/publicaciones/${id}`),
   darLike: (id, usuario_id) => pedir("POST", `/publicaciones/${id}/like`, { usuario_id }),
   quitarLike: (id, usuario_id) => pedir("DELETE", `/publicaciones/${id}/like?usuario_id=${usuario_id}`),
+  likesDe: (id) => pedir("GET", `/usuarios/${id}/likes`),
   feed: (id, orden) => pedir("GET", `/usuarios/${id}/feed?orden=${orden}`),
 
   // Vista de estructuras

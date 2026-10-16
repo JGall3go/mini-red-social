@@ -39,6 +39,11 @@ def quitar_like(publicacion_id: int, usuario_id: int, sesion=Depends(obtener_ses
     return red.cambiar_like(sesion, usuario_id, publicacion_id, dar=False)
 
 
+@router.get("/usuarios/{usuario_id}/likes")
+def likes_de_usuario(usuario_id: int):
+    return red.likes_de(usuario_id)
+
+
 @router.get("/usuarios/{usuario_id}/feed")
 def feed(usuario_id: int, orden: Literal["fecha", "likes"] = "fecha"):
     return red.feed(usuario_id, orden)

@@ -85,6 +85,7 @@ def test_like_editar_y_borrar_publicacion(cliente):
     assert cliente.post(f"/publicaciones/{post}/like", json={"usuario_id": beto}).json()["total_likes"] == 1
     assert cliente.post(f"/publicaciones/{post}/like", json={"usuario_id": beto}).status_code == 400
     assert cliente.delete(f"/publicaciones/{post}/like?usuario_id={beto}").json()["total_likes"] == 0
+    assert cliente.get(f"/usuarios/{beto}/likes").json() == []
     assert cliente.put(f"/publicaciones/{post}", json={"contenido": "editado"}).json()["contenido"] == "editado"
     assert cliente.delete(f"/publicaciones/{post}").status_code == 204
     assert cliente.get(f"/usuarios/{ana}/publicaciones").json() == []
@@ -111,3 +112,19 @@ def test_las_estructuras_se_recargan_desde_la_bd(cliente, sesion):
     red.cargar(sesion)  # como si se reiniciara el servidor
     assert [u["id"] for u in cliente.get(f"/usuarios/{ana}/amigos").json()] == [beto]
     assert len(cliente.get(f"/usuarios/{beto}/feed").json()) == 1
+
+
+def test_cada_usuario_ve_sus_propios_likes(cliente, sesion):
+    from app.servicios.red_social import red
+
+    ana, beto, carla = crear(cliente, "ana"), crear(cliente, "beto"), crear(cliente, "carla")
+    post = cliente.post("/publicaciones", json={"autor_id": ana, "contenido": "hola"}).json()["id"]
+    cliente.post(f"/publicaciones/{post}/like", json={"usuario_id": beto})
+    assert cliente.get(f"/usuarios/{beto}/likes").json() == [post]
+    # carla no ha dado like, así que puede darlo aunque el post ya tenga uno
+    assert cliente.get(f"/usuarios/{carla}/likes").json() == []
+    assert cliente.post(f"/publicaciones/{post}/like", json={"usuario_id": carla}).json()["total_likes"] == 2
+    red.cargar(sesion)  # al reiniciar se vuelven a cargar desde la BD
+    assert cliente.get(f"/usuarios/{carla}/likes").json() == [post]
+    cliente.delete(f"/publicaciones/{post}")
+    assert cliente.get(f"/usuarios/{beto}/likes").json() == []
