@@ -10,3 +10,12 @@ SesionLocal = sessionmaker(bind=engine, autoflush=False)
 
 # Clase base de la que heredan todos los modelos (tablas)
 Base = declarative_base()
+
+
+def obtener_sesion():
+    # FastAPI la usa como dependencia: abre una sesión por petición y la cierra al final
+    sesion = SesionLocal()
+    try:
+        yield sesion
+    finally:
+        sesion.close()
