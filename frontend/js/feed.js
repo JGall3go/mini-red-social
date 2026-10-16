@@ -2,28 +2,16 @@ const yo = usuarioActual();
 const selectorOrden = document.getElementById("orden");
 const contenedor = document.getElementById("feed");
 
-// Guardamos a qué posts les di like en esta sesión del navegador para el botón
-const misLikes = new Set(JSON.parse(localStorage.getItem("mis_likes") || "[]"));
-
-function guardarLikes() {
-  localStorage.setItem("mis_likes", JSON.stringify([...misLikes]));
-}
+// Ids de los posts a los que el usuario actual les dio like (se piden a la API)
+let misLikes = new Set();
 
 async function alternarLike(post) {
   try {
-    if (misLikes.has(post.id)) {
-      await api.quitarLike(post.id, yo.id);
-      misLikes.delete(post.id);
-    } else {
-      await api.darLike(post.id, yo.id);
-      misLikes.add(post.id);
-    }
+    if (misLikes.has(post.id)) await api.quitarLike(post.id, yo.id);
+    else await api.darLike(post.id, yo.id);
   } catch (error) {
-    // Si el servidor dice que ya tenía like, lo marcamos y seguimos
-    if (error.message.includes("Ya le diste like")) misLikes.add(post.id);
-    else mostrarMensaje(error.message, true);
+    mostrarMensaje(error.message, true);
   }
-  guardarLikes();
   cargarFeed();
 }
 
@@ -34,7 +22,10 @@ async function cargarFeed() {
     return;
   }
   try {
-    const [publicaciones, usuarios] = await Promise.all([api.feed(yo.id, selectorOrden.value), api.listarUsuarios()]);
+    const [publicaciones, usuarios, likes] = await Promise.all([
+      api.feed(yo.id, selectorOrden.value), api.listarUsuarios(), api.likesDe(yo.id),
+    ]);
+    misLikes = new Set(likes);
     const nombres = {};
     usuarios.forEach((u) => (nombres[u.id] = u));
     if (publicaciones.length === 0) {
