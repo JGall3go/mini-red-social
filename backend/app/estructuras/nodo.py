@@ -1,16 +1,5 @@
-"""Nodo simple enlazado, base de la Lista enlazada y de la Cola."""
-
-
 class Nodo:
-    """Caja que guarda un valor y una referencia al nodo siguiente.
-
-    Una lista enlazada o una cola no son más que una cadena de nodos:
-
-        [valor | siguiente] -> [valor | siguiente] -> None
-
-    Al no usar un arreglo, no hay que mover elementos ni reservar espacio:
-    agregar o quitar un nodo solo consiste en cambiar referencias.
-    """
+    """Nodo de una lista enlazada: guarda un valor y apunta al siguiente nodo."""
 
     def __init__(self, valor, siguiente=None):
         self.valor = valor
