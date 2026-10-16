@@ -1,0 +1,121 @@
+:root {
+  --fondo: #f4f5f7;
+  --tarjeta: #ffffff;
+  --texto: #1f2430;
+  --secundario: #6b7280;
+  --borde: #e2e5ea;
+  --principal: #2f6fde;
+  --principal-oscuro: #2457b3;
+  --peligro: #c93c3c;
+  --exito: #2e8b57;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+  line-height: 1.5;
+}
+
+/* Barra de navegación */
+.barra {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  background: var(--tarjeta);
+  border-bottom: 1px solid var(--borde);
+  flex-wrap: wrap;
+}
+.barra .logo { font-weight: 700; font-size: 1.2rem; color: var(--principal); text-decoration: none; }
+.barra nav { display: flex; gap: 12px; flex-wrap: wrap; }
+.barra nav a { color: var(--texto); text-decoration: none; }
+.barra nav a:hover { color: var(--principal); }
+#usuario-barra { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+
+h1 { font-size: 1.5rem; margin: 0 0 16px; }
+h2 { font-size: 1.1rem; margin: 0 0 12px; }
+
+.rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+
+.tarjeta {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.nota { font-size: 0.85rem; color: var(--secundario); margin-top: 0; }
+.secundario { color: var(--secundario); font-size: 0.9rem; }
+
+/* Formularios */
+label { display: block; font-size: 0.9rem; margin-bottom: 4px; }
+input, textarea, select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  font: inherit;
+  margin-bottom: 10px;
+}
+textarea { resize: vertical; min-height: 70px; }
+
+button {
+  background: var(--principal);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover { background: var(--principal-oscuro); }
+button.secundario { background: #e8ecf3; color: var(--texto); }
+button.peligro { background: var(--peligro); }
+button.pequeno { padding: 4px 10px; font-size: 0.85rem; }
+.acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Listas de usuarios y publicaciones */
+.lista { list-style: none; margin: 0; padding: 0; }
+.lista li { padding: 8px 0; border-bottom: 1px solid var(--borde); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.lista li:last-child { border-bottom: none; }
+.usuario { display: flex; flex-direction: column; text-decoration: none; color: var(--texto); }
+.usuario:hover strong { color: var(--principal); }
+
+.post { border-bottom: 1px solid var(--borde); padding: 12px 0; }
+.post:last-child { border-bottom: none; }
+.post .cabecera { display: flex; justify-content: space-between; gap: 8px; }
+.post p { margin: 6px 0; white-space: pre-wrap; word-wrap: break-word; }
+
+/* Autocompletado */
+.sugerencias-busqueda { list-style: none; margin: -6px 0 10px; padding: 0; border: 1px solid var(--borde); border-radius: 6px; }
+.sugerencias-busqueda:empty { display: none; }
+.sugerencias-busqueda li { padding: 6px 10px; border-bottom: 1px solid var(--borde); }
+.sugerencias-busqueda li:last-child { border-bottom: none; }
+
+/* Mensajes */
+.mensaje { padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; }
+.mensaje.ok { background: #e6f4ec; color: var(--exito); }
+.mensaje.error { background: #fbeaea; color: var(--peligro); }
+.mensaje.oculto { display: none; }
+
+/* Grafo y árboles */
+.lienzo { height: 460px; border: 1px solid var(--borde); border-radius: 8px; background: #fff; }
+
+/* Cola y lista enlazada dibujadas con cajas */
+.cadena { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 8px 0; }
+.caja { border: 2px solid var(--principal); border-radius: 6px; padding: 6px 10px; background: #eef3fc; font-size: 0.85rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.flecha { color: var(--secundario); }
+.etiqueta { font-size: 0.75rem; font-weight: 700; color: var(--secundario); text-transform: uppercase; }
+
+@media (max-width: 600px) {
+  .barra { padding: 12px 16px; }
+  #usuario-barra { margin-left: 0; }
+  .lienzo { height: 360px; }
+}

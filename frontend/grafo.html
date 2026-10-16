@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo - Grafo</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="logo" href="index.html">Nodo</a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="feed.html">Feed</a>
+      <a href="grafo.html">Grafo</a>
+      <a href="estructuras.html">Estructuras</a>
+    </nav>
+    <div id="usuario-barra"></div>
+  </header>
+  <main>
+    <div id="mensaje" class="mensaje oculto"></div>
+    <section class="tarjeta">
+      <h1>Grafo de amistades</h1>
+      <p class="nota">Cada usuario es un nodo y cada amistad una arista. Puedes arrastrar los nodos.</p>
+      <div id="lienzo-grafo" class="lienzo"></div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Grados de separación</h2>
+      <p class="nota">Se calcula el camino más corto con <strong>BFS</strong> y se resalta en el grafo.</p>
+      <div class="rejilla">
+        <div>
+          <label for="origen">Desde</label>
+          <select id="origen"></select>
+        </div>
+        <div>
+          <label for="destino">Hasta</label>
+          <select id="destino"></select>
+        </div>
+      </div>
+      <button id="calcular">Calcular</button>
+      <p id="resultado-grados"></p>
+    </section>
+  </main>
+  <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/grafo.js"></script>
+</body>
+</html>

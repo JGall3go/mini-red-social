@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo - Estructuras</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="logo" href="index.html">Nodo</a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="feed.html">Feed</a>
+      <a href="grafo.html">Grafo</a>
+      <a href="estructuras.html">Estructuras</a>
+    </nav>
+    <div id="usuario-barra"></div>
+  </header>
+  <main>
+    <div id="mensaje" class="mensaje oculto"></div>
+    <h1>Las estructuras por dentro</h1>
+    <p class="nota">Esta página muestra el estado real de cada estructura en el servidor.</p>
+
+    <section class="tarjeta">
+      <h2>Trie (búsqueda de usuarios)</h2>
+      <p class="nota">Cada nodo es una letra. Los nodos verdes marcan el final de un nombre de usuario.
+        Insertar y buscar cuestan O(m), con m = largo de la palabra.</p>
+      <input id="prefijo-trie" placeholder="Prefijo (vacío = todo el trie)" autocomplete="off">
+      <div id="lienzo-trie" class="lienzo"></div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>BST (publicaciones por likes)</h2>
+      <p class="nota">Clave = (likes, fecha, id). A la izquierda van las menores y a la derecha las mayores.
+        Insertar, buscar y eliminar cuestan O(h).</p>
+      <p id="altura-bst" class="secundario"></p>
+      <div id="lienzo-bst" class="lienzo"></div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Cola y Lista enlazada de un usuario</h2>
+      <label for="usuario-estructuras">Usuario</label>
+      <select id="usuario-estructuras"></select>
+      <p class="etiqueta">Cola de solicitudes pendientes (encolar y desencolar en O(1))</p>
+      <div id="vista-cola" class="cadena"></div>
+      <p class="etiqueta">Lista enlazada de publicaciones (insertar al inicio en O(1))</p>
+      <div id="vista-lista" class="cadena"></div>
+    </section>
+  </main>
+  <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/estructuras.js"></script>
+</body>
+</html>

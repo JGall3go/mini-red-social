@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo - Perfil</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="logo" href="index.html">Nodo</a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="feed.html">Feed</a>
+      <a href="grafo.html">Grafo</a>
+      <a href="estructuras.html">Estructuras</a>
+    </nav>
+    <div id="usuario-barra"></div>
+  </header>
+  <main>
+    <div id="mensaje" class="mensaje oculto"></div>
+    <section class="tarjeta">
+      <h1 id="nombre"></h1>
+      <p id="datos" class="secundario"></p>
+      <p id="bio"></p>
+      <div id="acciones-perfil" class="acciones"></div>
+    </section>
+
+    <div class="rejilla">
+      <section class="tarjeta" id="zona-solicitudes">
+        <h2>Solicitudes pendientes</h2>
+        <p class="nota">Es una <strong>Cola</strong> (FIFO): solo se puede responder la más antigua.</p>
+        <ul id="solicitudes" class="lista"></ul>
+        <div class="acciones">
+          <button id="aceptar">Aceptar la primera</button>
+          <button id="rechazar" class="secundario">Rechazar la primera</button>
+        </div>
+      </section>
+
+      <section class="tarjeta">
+        <h2>Amigos</h2>
+        <ul id="amigos" class="lista"></ul>
+      </section>
+
+      <section class="tarjeta" id="zona-sugerencias">
+        <h2>Personas que quizá conozcas</h2>
+        <p class="nota">Amigos de tus amigos, calculados con <strong>BFS</strong> en el grafo.</p>
+        <ul id="sugerencias" class="lista"></ul>
+      </section>
+    </div>
+
+    <section class="tarjeta" id="zona-publicar">
+      <h2>Publicar</h2>
+      <form id="form-publicar">
+        <textarea id="contenido" maxlength="280" required placeholder="¿Qué estás pensando?"></textarea>
+        <button type="submit">Publicar</button>
+      </form>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Publicaciones</h2>
+      <p class="nota">Se guardan en una <strong>Lista enlazada</strong>: la más nueva se inserta al inicio en O(1).</p>
+      <div id="publicaciones"></div>
+    </section>
+  </main>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/perfil.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo - Inicio</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="logo" href="index.html">Nodo</a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="feed.html">Feed</a>
+      <a href="grafo.html">Grafo</a>
+      <a href="estructuras.html">Estructuras</a>
+    </nav>
+    <div id="usuario-barra"></div>
+  </header>
+  <main>
+    <div id="mensaje" class="mensaje oculto"></div>
+    <h1>Bienvenido a Nodo</h1>
+    <div class="rejilla">
+      <section class="tarjeta">
+        <h2>Crear usuario</h2>
+        <form id="form-usuario">
+          <label for="nombre_usuario">Nombre de usuario</label>
+          <input id="nombre_usuario" required pattern="[A-Za-z0-9_]{3,30}" placeholder="juan_carlos">
+          <label for="nombre_visible">Nombre visible</label>
+          <input id="nombre_visible" required maxlength="60" placeholder="Juan Carlos">
+          <label for="biografia">Biografía (opcional)</label>
+          <input id="biografia" maxlength="200">
+          <button type="submit">Registrarme</button>
+        </form>
+      </section>
+
+      <section class="tarjeta">
+        <h2>Buscar usuarios</h2>
+        <p class="nota">El autocompletado usa un <strong>Trie</strong>: busca por prefijo en O(m).</p>
+        <input id="buscador" placeholder="Escribe un nombre de usuario..." autocomplete="off">
+        <ul id="resultados" class="sugerencias-busqueda"></ul>
+      </section>
+    </div>
+
+    <section class="tarjeta">
+      <h2>Entrar como...</h2>
+      <p class="nota">No hay contraseñas: elige con qué usuario quieres usar la red.</p>
+      <ul id="lista-usuarios" class="lista"></ul>
+    </section>
+  </main>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/inicio.js"></script>
+</body>
+</html>
