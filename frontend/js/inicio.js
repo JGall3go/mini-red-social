@@ -39,6 +39,15 @@ formUsuario.addEventListener("submit", async (evento) => {
   }
 });
 
+async function agregarAmigo(emisorId, receptorId) {
+  try {
+    await api.enviarSolicitud(emisorId, receptorId);
+    mostrarMensaje("Solicitud enviada");
+  } catch (error) {
+    mostrarMensaje(error.message, true);
+  }
+}
+
 // Autocompletado: cada vez que se escribe se consulta el Trie del backend
 buscador.addEventListener("input", async () => {
   const prefijo = buscador.value.trim();
@@ -50,6 +59,11 @@ buscador.addEventListener("input", async () => {
     for (const usuario of encontrados) {
       const fila = crear("li");
       fila.appendChild(tarjetaUsuario(usuario));
+      // Si hay un usuario activo, se le puede enviar la solicitud desde aquí
+      const yo = usuarioActual();
+      if (yo && yo.id !== usuario.id) {
+        fila.appendChild(boton("Agregar", () => agregarAmigo(yo.id, usuario.id), "pequeno"));
+      }
       resultados.appendChild(fila);
     }
     if (encontrados.length === 0) resultados.appendChild(crear("li", "Sin resultados", "secundario"));
