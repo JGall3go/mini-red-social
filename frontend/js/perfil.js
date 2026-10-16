@@ -2,6 +2,7 @@ const parametros = new URLSearchParams(location.search);
 const perfilId = Number(parametros.get("id"));
 const yo = usuarioActual();
 const esMiPerfil = yo && yo.id === perfilId;
+let idsAmigos = []; // para no ofrecer "Agregar" a quien ya es amigo
 
 function pintarPublicacion(post, contenedor) {
   const caja = crear("article", null, "post");
@@ -65,6 +66,7 @@ async function cargarPerfil() {
 
     const amigos = await api.amigos(perfilId);
     pintarListaUsuarios("amigos", amigos, "Aún no tiene amigos.");
+    idsAmigos = amigos.map((a) => a.id);
 
     // Botones según quién está viendo el perfil
     const acciones = document.getElementById("acciones-perfil");
@@ -89,7 +91,7 @@ async function cargarPerfil() {
     }
 
     // Solo el dueño ve sus solicitudes, sugerencias y el formulario para publicar
-    for (const id of ["zona-solicitudes", "zona-sugerencias", "zona-publicar"]) {
+    for (const id of ["zona-solicitudes", "zona-buscar", "zona-sugerencias", "zona-publicar"]) {
       document.getElementById(id).style.display = esMiPerfil ? "" : "none";
     }
     if (esMiPerfil) {
@@ -120,6 +122,24 @@ async function responder(aceptar) {
     mostrarMensaje(error.message, true);
   }
 }
+
+// Buscador para enviar solicitudes a cualquier usuario
+const buscarAmigos = document.getElementById("buscar-amigos");
+buscarAmigos.addEventListener("input", async () => {
+  const prefijo = buscarAmigos.value.trim();
+  const lista = document.getElementById("resultados-amigos");
+  lista.textContent = "";
+  if (prefijo === "") return;
+  try {
+    const encontrados = await api.buscarUsuarios(prefijo);
+    if (buscarAmigos.value.trim() !== prefijo) return; // ya se escribió otra cosa
+    const otros = encontrados.filter((u) => u.id !== perfilId && !idsAmigos.includes(u.id));
+    pintarListaUsuarios("resultados-amigos", otros, "Sin resultados",
+      (u) => boton("Agregar", () => enviarSolicitudA(u.id), "pequeno"));
+  } catch (error) {
+    mostrarMensaje(error.message, true);
+  }
+});
 
 document.getElementById("aceptar").addEventListener("click", () => responder(true));
 document.getElementById("rechazar").addEventListener("click", () => responder(false));
