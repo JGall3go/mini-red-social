@@ -16,17 +16,16 @@ El objetivo del proyecto es demostrar el uso de **5 estructuras de datos impleme
 
 ## Integrante
 
-- Juan Carlos Gallego Barona (único integrante)
+- Juan Carlos Gallego Barona
 
 ## Enlaces del proyecto publicado
 
-- Frontend: _pendiente_
-- Backend (API): _pendiente_
-- Documentación de la API: _pendiente_ (`/docs` del backend)
+- Frontend: http://tbvtovr5u0yinbviqzzzcg7t.179.236.249.73.sslip.io/
+- Backend (API): http://q2e6zcrqs6sp0tkucskzhynq.179.236.249.73.sslip.io/
 
 ## Servicios de despliegue
 
-- **Coolify** (servidor de la compañía): frontend, backend y base de datos PostgreSQL.
+- **Coolify**: frontend, backend y base de datos PostgreSQL.
 
 ## Tecnologías
 
@@ -35,19 +34,14 @@ El objetivo del proyecto es demostrar el uso de **5 estructuras de datos impleme
 - Frontend: HTML, CSS y JavaScript puro, con vis-network para el grafo
 - Pruebas: pytest
 
-## Cómo correrlo localmente
-
-_Se completará al terminar el backend y el frontend._
-
 ## Estructura del repositorio
 
 ```
 backend/    API en FastAPI y las 5 estructuras de datos
 frontend/   Interfaz web en HTML, CSS y JavaScript
-docs/       Documento final y guía de despliegue
+docs/       Documento final
 ```
 
 ## Documentación
 
 - [Documento final](docs/documento-final.md): alcance, tecnologías y explicación de cada estructura de datos.
-- [Guía de despliegue](docs/guia-despliegue.md): cómo publicar el proyecto en Coolify.
